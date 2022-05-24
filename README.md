@@ -1,1 +1,3 @@
-# thymeleaf-html-template-to-pdf
+## Generate a PDF file from HTML Template using Thymeleaf
+
+*Tech Stack - Spring Boot*
