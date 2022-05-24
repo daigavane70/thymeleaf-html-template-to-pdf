@@ -1,0 +1,336 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Account statement</title>
+    <style type="text/css">
+      #folio-table thead tr td {
+        background: #ddd;
+        text-transform: uppercase;
+        padding: 5px;
+      }
+
+      table {
+        border-collapse: collapse;
+      }
+
+      #folio-table tbody tr td {
+        padding: 5px;
+      }
+
+      .table-style {
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+
+      .right-details-div {
+        width: 50%;
+        display: inline-block;
+      }
+
+      .left-details-div {
+        width: 50%;
+        display: inline-block;
+        float: left;
+      }
+
+      .user-details-table tbody tr td {
+        padding: 3px;
+      }
+    </style>
+</head>
+
+<body style="margin: 5px; padding: 5px;font-size: 8px;">
+<div style="text-align: center; ">
+    <img
+            style="height:100px;width:100px;padding: 5px 0"
+            alt=""
+            src="${logo}"
+    />
+</div>
+
+<div style="margin:10px 0;">
+    <div style="height: 80px;">
+        <div style="float: left;text-align: left; width: 200px;">
+            <b>RKSV Securities India Private Limited</b>
+            Registered Office: 807, New Delhi House, Barakhamba Road Connaught
+            Place,
+            <br />New Delhi-110001. <br />
+            CIN: U74900DL2009PTC189166 <br />Tel/Fax: 23753793-94, 23318038-39
+            <br />E-mail:
+            <a href="mailto:contact@upstox.com">contact@upstox.com</a>,
+            <br />Compliance Officer: Ravi Kumar
+        </div>
+        <div style="float: right;text-align: right; width: 200px;">
+            <b>Corporate Address</b>
+            <br />
+            30'th Floor, Sunshine Tower, <br />Senapati Bapat Marg, Dadar (West)
+            <br />Mumbai-400013
+        </div>
+    </div>
+</div>
+
+<div style="margin-top: 10px; text-align: center; ">
+    <h4>Account statement dated {{date}}</h4>
+</div>
+
+<!-- User info -->
+<div style="padding:10px 0;">
+    <!-- left details -->
+    <div class="left-details-div">
+        <table
+                class="user-details-table"
+                border="0"
+                cellspacing="0"
+                cellpadding="0"
+                style="width: 100%;"
+        >
+            <tbody>
+            <tr>
+                <td>UCC code :</td>
+                <td>{{userInfo.ucc}}</td>
+            </tr>
+            <tr>
+                <td>Name :</td>
+                <td>{{userInfo.name}}</td>
+            </tr>
+            <tr>
+                <td>Email :</td>
+                <td>{{userInfo.email}}</td>
+            </tr>
+            <tr>
+                <td>Mobile :</td>
+                <td>{{userInfo.mobile}}</td>
+            </tr>
+            <tr>
+                <td>Pan :</td>
+                <td>{{userInfo.pan}}</td>
+            </tr>
+            <tr>
+                <td>DP ID :</td>
+                <td>{{userInfo.dpid1}}</td>
+            </tr>
+            <tr>
+                <td>Ben ID :</td>
+                <td>{{userInfo.dpac1}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- right details -->
+    <div class="right-details-div">
+        <table
+                class="user-details-table"
+                border="0"
+                cellspacing="0"
+                cellpadding="0"
+                style="width: 100%;"
+        >
+            <tbody>
+            <tr>
+                <td>Registered Address :</td>
+                <td>As per demat(Refer CMR)</td>
+            </tr>
+            <!-- <tr>
+                        <td>Pan Verification Status :</td>
+                        <td></td>
+                    </tr> -->
+            <tr>
+                <td>Nomination :</td>
+                <td>{{userInfo.nomination}}</td>
+            </tr>
+            <tr>
+                <td>FATCA Status :</td>
+                <td>{{userInfo.fatcaDetails}}</td>
+            </tr>
+            <tr>
+                <td>CKYC Status :</td>
+                <td>{{userInfo.ckycDetails}}</td>
+            </tr>
+            <tr>
+                <td>Primary Bank :</td>
+                <td>{{userInfo.bank1}}</td>
+            </tr>
+            <tr>
+                <td>Bank Account No :</td>
+                <td>{{userInfo.bankAccountNo}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Funds info -->
+<div style="padding:10px 0 ;">
+    {% if funds and funds.length !== 0 %}
+    <table
+            class="table-style"
+            id="folio-table"
+            border="0"
+            cellspacing="0"
+            cellpadding="0"
+            style="width: 100%;"
+    >
+        <thead>
+        <tr>
+            <td>
+                Fund Name
+            </td>
+            <td>
+                Folio No.
+            </td>
+            <td>
+                Units
+            </td>
+            <td style="width:15%;">
+                Purchased (₹)
+            </td>
+            <td style="width:12%;">
+                Current (₹)
+            </td>
+            <td style="width:10%;">
+                Profit / Loss (%)
+            </td>
+            <td>
+                Scheme Code
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for fund in funds %}
+        <tr>
+            <td>
+                {{fund.fundName}}
+            </td>
+            <td>
+                {{fund.folioNumber}}
+            </td>
+            <td>
+                {{fund.totalUnits}}
+            </td>
+            <td style="text-align: center;">
+                {{Number(fund.totalInvest).toFixed(2)}}
+            </td>
+            <td style="text-align: center;">
+                {{Number(fund.currentValuation).toFixed(2)}}
+            </td>
+            <td>
+                {{fund.totalPL}}
+            </td>
+            <td>
+                {{fund.schemeCode}}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+
+<!-- Order info -->
+<div style="padding:10px 0 ;">
+    <b>Order History ( Completed ) :</b>
+    {% if orders and orders.length !== 0 %}
+    <table
+            class="table-style"
+            id="folio-table"
+            border="0"
+            cellspacing="0"
+            cellpadding="0"
+            style="width: 100%;"
+    >
+        <thead>
+        <tr>
+            <td>
+                Fund Name
+            </td>
+            <td>
+                Folio No
+            </td>
+            <td>
+                Order Date
+            </td>
+            <td>
+                Type
+            </td>
+            <td>
+                Units
+            </td>
+            <td>
+                Amount (₹)
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %} {% if order.status == "completed" %}
+        <tr>
+            <td>
+                {{order.schemeName}}
+            </td>
+            <td>
+                {{order.folioNumber}}
+            </td>
+            <td>
+                {% if order.orderDate %} {{order.orderDate}} {% endif %}
+            </td>
+            <td>
+                {% if order.type == 'B' %} Buy {% elseif order.type == 'S' %} Sell
+                {% else %} - {% endif %}
+            </td>
+            <td>
+                {{Number(order.units).toFixed(2)}}
+            </td>
+            <td>
+                {{order.orderAmount}}
+            </td>
+        </tr>
+        {% endif %} {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+
+<!-- Disclaimer -->
+<div style="padding:20px 0;">
+    Disclaimer:<br />
+    <p>
+        Mutual fund investments are subject to market risks. Please read the
+        scheme information and other related documents before investing. Past
+        performance is not indicative of future returns. Please consider your
+        specific investment requirements before choosing a fund, or designing a
+        portfolio that suits your needs.
+    </p>
+
+    <p>
+        Above transaction statement includes only those transaction which was
+        executed from Upstox portal only, any off-market transfer or AMC
+        purchase will not be reflected here.Please co-relate with the DP
+        transaction statement.P&#38;L may differ due to nonavailability of cost of
+        acquisition in the above cases due to off-market transfer if any.
+    </p>
+    <p>
+        Investment in Tax Saver (ELSS) Fund is eligible for availing tax benefit
+        under Section 80C of Income Tax Act 1961, read with the circular
+        no.-9/2005 dated 30 th Nov 05 issued by Ministry of Finance,Subject to
+        the limits and condition specified under section 80C.
+    </p>
+    <p>
+        This statement is issued in lieu of demat statement as the units are
+        purchased under demat mode with DP RKSV,For all fund related statement
+        please write at
+        <a href="mailto:mf@upstox.com"> mf@upstox.com</a>
+    </p>
+    <p>
+        Please co-relate the scheme and units with your demat statement and if
+        you found any discrepancy please write to us on
+        <a href="mailto:support@upstox.com">support@upstox.com</a>
+    </p>
+</div>
+
+<div style="padding:10px 0;border-top: 1px solid black">
+    RKSV Securities: NSE CM: INB231394231 | NSE F&#38;O: INF231394231 | NSE CDS:
+    INE231394231 | CDSL: IN-DP-CDSL- 00282534 | NSDL: IN-DP-NSDL-11496819 |
+    BSE CM: INB011394237 | BSE F&#38;O: INF 011394237 | CDSL: IN-DP-CDSL- 00283831
+    | NSDL: IN-DP-NSDL-11497282
+</div>
+</body>
+</html>
