@@ -1,75 +1,48 @@
 package com.starter.sprint.controller;
 
-import com.starter.sprint.entity.Customer;
-import com.starter.sprint.entity.QuoteItem;
-import com.starter.sprint.service.Impl.PdfGenerateServiceImpl;
+import com.starter.sprint.entity.Doc;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
+@Slf4j
 public class MainController {
 
-    @Autowired
-    PdfGenerateServiceImpl pdfGenerateService;
+    List<Doc> list = new ArrayList<Doc>();
 
-    @GetMapping("/")
-    public HttpEntity ping() throws IOException {
+    private static final Logger LOGGER = LogManager.getLogger(MainController.class);
 
-        Map<String, Object> data = new HashMap<>();
-        Customer customer = new Customer();
-        customer.setCompanyName("Simple Solution");
-        customer.setContactName("John Doe");
-        customer.setAddress("123, Simple Street");
-        customer.setEmail("john@simplesolution.dev");
-        customer.setPhone("123 456 789");
-        data.put("customer", customer);
-
-        List<QuoteItem> quoteItems = new ArrayList<>();
-        QuoteItem quoteItem1 = new QuoteItem();
-        quoteItem1.setDescription("Test Quote Item 1");
-        quoteItem1.setQuantity(1);
-        quoteItem1.setUnitPrice(1000.0);
-        quoteItem1.setTotal(100.0);
-        quoteItems.add(quoteItem1);
-
-        QuoteItem quoteItem2 = new QuoteItem();
-        quoteItem2.setDescription("Test Quote Item 2");
-        quoteItem2.setQuantity(4);
-        quoteItem2.setUnitPrice(500.0);
-        quoteItem2.setTotal(2000.0);
-        quoteItems.add(quoteItem2);
-
-        QuoteItem quoteItem3 = new QuoteItem();
-        quoteItem3.setDescription("Test Quote Item 3");
-        quoteItem3.setQuantity(2);
-        quoteItem3.setUnitPrice(200.0);
-        quoteItem3.setTotal(400.0);
-        quoteItems.add(quoteItem3);
-
-        data.put("quoteItems", quoteItems);
-
-        File pdfFile = pdfGenerateService.generatePdfFile("quotation", data, "quotation"+ (Math.random()*100)/100 +".pdf");
-
-        InputStream is = new FileInputStream(pdfFile.getAbsolutePath());
-        String inputStream = is.toString();
-        System.out.println("Input Stream String is: "+inputStream);
-        byte[] byteArray = inputStream.getBytes();
-        is.close();
-
-
-        HttpHeaders header = new HttpHeaders();
-//        header.setContentType(MediaType.APPLICATION_PDF);
-//        header.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + pdfFile.getName());
-//        header.setContentLength(byteArray.length);
-
-        return new HttpEntity(pdfFile.getAbsolutePath(), header);
+    @GetMapping("/test/{message}")
+    public HttpEntity test(@PathVariable("message") String msg) {
+        return new HttpEntity("Testing Successsfull, "+msg, null);
     }
+
+    @PostMapping("doc")
+    public HttpEntity createDocument(@RequestParam("name") String name, @RequestParam("size") int size){
+        Doc newDoc = new Doc(name, size, LocalDateTime.now());
+        LOGGER.info("Created a new Document: "+newDoc);
+        list.add(newDoc);
+        return new HttpEntity(newDoc, null);
+    }
+
+    @GetMapping("doc")
+    public HttpEntity getDocument(){
+        LOGGER.info("Sending Data: " + list );
+        return new HttpEntity(list, null);
+    }
+
+    @GetMapping("/kafka/produce/{message}")
+    public HttpEntity produce(@PathVariable("message") String message) {
+        return new HttpEntity("Produced", null);
+    }
+
 }
