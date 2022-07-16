@@ -1,11 +1,10 @@
 package com.starter.sprint.controller;
 
 import com.starter.sprint.entity.Doc;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,20 +22,20 @@ public class MainController {
 
     @GetMapping("/test/{message}")
     public HttpEntity test(@PathVariable("message") String msg) {
-        return new HttpEntity("Testing Successsfull, "+msg, null);
+        return new HttpEntity("Testing Successsfull, " + msg, null);
     }
 
     @PostMapping("doc")
-    public HttpEntity createDocument(@RequestParam("name") String name, @RequestParam("size") int size){
+    public HttpEntity createDocument(@RequestParam("name") String name, @RequestParam("size") int size) {
         Doc newDoc = new Doc(name, size, LocalDateTime.now());
-        LOGGER.info("Created a new Document: "+newDoc);
+        LOGGER.info("Created a new Document: " + newDoc);
         list.add(newDoc);
         return new HttpEntity(newDoc, null);
     }
 
     @GetMapping("doc")
-    public HttpEntity getDocument(){
-        LOGGER.info("Sending Data: " + list );
+    public HttpEntity getDocument() {
+        LOGGER.info("Sending Data: " + list);
         return new HttpEntity(list, null);
     }
 

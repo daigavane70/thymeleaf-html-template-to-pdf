@@ -11,57 +11,54 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class SprintApplicationTests {
 
-	@BeforeAll
-	static void beforeAll(){
-		System.out.println("Before All Method");
-	}
+    @BeforeAll
+    static void beforeAll() {
+        System.out.println("Before All Method");
+    }
 
-	@BeforeEach
-	void beforeEach(){
-		System.out.println("Before Each");
-	}
+    @BeforeEach
+    void beforeEach() {
+        System.out.println("Before Each");
+    }
 
-	int sum(int a, int b){
-		return a+b;
-	}
+    int sum(int a, int b) {
+        return a + b;
+    }
 
-	int mult(int a, int b){
-		return a*b;
-	}
+    int mult(int a, int b) {
+        return a * b;
+    }
 
+    @Test
+    void test1() {
+        try {
+            for (int i = 0; i < 10; i++) {
+                assertEquals(sum(i, i + 10), 2 * i + 10);
+            }
+        } catch (Exception e) {
+            fail(e);
+        }
+    }
 
-	@Test
-	void test1() {
-		try{
-			for(int i=0;i<10;i++) {
-				assertEquals(sum(i,i+10), 2*i+10);
-			}
-		}
-		catch (Exception e) {
-			fail(e);
-		}
-	}
+    @Test
+    void test2() {
+        try {
+            for (int i = 0; i < 10; i++) {
+                assertEquals(mult(i, i + 10), i * (i + 10));
+            }
+        } catch (Exception e) {
+            fail(e);
+        }
+    }
 
-	@Test
-	void test2() {
-		try{
-			for(int i=0;i<10;i++){
-				assertEquals(mult(i,i+10), i*(i+10));
-			}
-		}
-		catch (Exception e){
-			fail(e);
-		}
-	}
+    @AfterEach
+    void afterEach() {
+        System.out.println("After Each");
+    }
 
-	@AfterEach
-	void afterEach(){
-		System.out.println("After Each");
-	}
-
-	@AfterAll
-	static void afterAll(){
-		System.out.println("After All");
-	}
+    @AfterAll
+    static void afterAll() {
+        System.out.println("After All");
+    }
 
 }

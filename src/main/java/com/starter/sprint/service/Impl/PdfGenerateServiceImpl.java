@@ -33,7 +33,7 @@ public class PdfGenerateServiceImpl implements PdfGenerateService {
         Context context = new Context();
         context.setVariables(data);
 
-        File pdfFile = new File(pdfDirectory+pdfFileName);
+        File pdfFile = new File(pdfDirectory + pdfFileName);
 
         String htmlContent = templateEngine.process(templateName, context);
         try {
@@ -43,7 +43,7 @@ public class PdfGenerateServiceImpl implements PdfGenerateService {
             renderer.layout();
             renderer.createPDF(fileOutputStream, false);
             renderer.finishPDF();
-            pdfFile = new File(Paths.get(pdfDirectory+pdfFileName).toString());
+            pdfFile = new File(Paths.get(pdfDirectory + pdfFileName).toString());
             FileOutputStream fileOutputStream1 = new FileOutputStream(pdfFile);
             return pdfFile;
         } catch (FileNotFoundException e) {

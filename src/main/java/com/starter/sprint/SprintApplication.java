@@ -8,20 +8,19 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
+@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
 public class SprintApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(SprintApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SprintApplication.class, args);
+    }
 
-
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurerAdapter() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/products").allowedOrigins("http://localhost:8080");
-			}
-		};
-	}
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/products").allowedOrigins("http://localhost:8080");
+            }
+        };
+    }
 }
